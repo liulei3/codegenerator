@@ -16,9 +16,7 @@ import javax.validation.constraints.NotNull;
 
 
 /**
- * <p>
  * $!{table.comment}
- * </p>
  *
  * @author ${author}
  * @since ${date}
