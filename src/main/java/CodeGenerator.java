@@ -1,7 +1,7 @@
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
@@ -16,7 +16,7 @@ import java.util.*;
 public class CodeGenerator {
 
 	// 输出表名称,如果要生成全部表则为空字符串
-	private static final String TABLE_NAME = "temp_meta";//导出表名称
+	public static final String[] TABLES = new String[]{};
 
 	/**
 	 * <p>
@@ -51,9 +51,9 @@ public class CodeGenerator {
 		globalConfig.setXmlName("%sMapper");
 		globalConfig.setDateType(DateType.ONLY_DATE);
 		globalConfig.setIdType(IdType.ID_WORKER);
-		//globalConfig.setServiceName("MP%sService")
-		//globalConfig.setServiceImplName("%sServiceDiy")
-		//globalConfig.setControllerName("%sAction")
+//		globalConfig.setServiceName("MP%sService");
+//		globalConfig.setServiceImplName("%sServiceDiy");
+//		globalConfig.setControllerName("%sAction");
 
 		// 数据源配置
 		DataSourceConfig dataSourceConfig = new DataSourceConfig();
@@ -70,12 +70,12 @@ public class CodeGenerator {
 		// strategyConfig.setTablePrefix(new String[]{"unionpay_"});//
 		// 此处可以修改为您的表前缀
 		strategyConfig.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-		if(StringUtils.isNotEmpty(TABLE_NAME)) {
-			strategyConfig.setInclude(new String[]{TABLE_NAME}); // 需要生成的表
+		if(ArrayUtils.isNotEmpty(TABLES)) {
+			strategyConfig.setInclude(TABLES); // 需要生成的表
 		}
 		// .setExclude(new String[]{"test"}) // 排除生成的表
 		// 自定义实体，公共字段
-		strategyConfig.setSuperEntityColumns(new String[]{"gmt_create", "gmt_modified"});
+		strategyConfig.setSuperEntityColumns(new String[]{"create_time", "update_time"});
 		strategyConfig.setTableFillList(tableFillList);
 		// 自定义实体父类
 		// strategyConfig.setSuperEntityClass("com.baomidou.demo.base.BsBaseEntity");
@@ -128,17 +128,7 @@ public class CodeGenerator {
 						return prop.getString("outputDir") + "/xml/" + tableInfo.getEntityName() + "Mapper.xml";
 					}
 				}));
-
-		// 自定义模板配置，用于设置生成模板的文件,模板可以参考源码 /mybatis-plus/src/main/resources/template 使用 copy
-		// 至您项目 src/main/resources/template 目录下，模板名称也可自定义如下配置：
-		// 关闭默认 xml 生成，调整生成 至 根目录
-		TemplateConfig template = new TemplateConfig();
-		template.setXml(null);
-		template.setController(null);
-		template.setService(null);
-		template.setServiceImpl(null);
-		template.setMapper(null);
-		// template.setEntity("...");
+		TemplateConfig template = getTemplateConfig();
 
 		AutoGenerator generator = new AutoGenerator();
 		generator.setGlobalConfig(globalConfig);
@@ -148,6 +138,24 @@ public class CodeGenerator {
 		generator.setCfg(customConfig);
 		generator.setTemplate(template);
 		generator.execute();
+	}
+
+	/**
+	 * 自定义模板配置，用于设置生成模板的文件,模板可以参考源码 /mybatis-plus/src/main/resources/template 使用 copy
+	 * @return
+	 */
+	private static TemplateConfig getTemplateConfig() {
+		//
+		// 至您项目 src/main/resources/template 目录下，模板名称也可自定义如下配置：
+		// 关闭默认 xml 生成，调整生成 至 根目录
+		TemplateConfig template = new TemplateConfig();
+		template.setXml(null);
+//		template.setController(null);
+//		template.setService(null);
+//		template.setServiceImpl(null);
+//		template.setMapper(null);
+		// template.setEntity("...");
+		return template;
 	}
 
 }

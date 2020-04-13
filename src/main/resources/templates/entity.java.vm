@@ -12,7 +12,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 #end
-import javax.validation.constraints.NotNull;
 
 
 /**
@@ -138,6 +137,8 @@ public class ${entity} implements Serializable {
     public static final String ${field.name.toUpperCase()} = "${field.name}";
 
 #end
+    public static final String[] COLUMNS = new String[]{#foreach($field in ${table.fields})#if($!{foreach.index}==0)${field.name.toUpperCase()} #else, ${field.name.toUpperCase()}#end#end};
+
 #end
 #if(${activeRecord})
     @Override

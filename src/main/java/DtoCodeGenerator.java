@@ -1,7 +1,7 @@
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
@@ -13,9 +13,6 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import java.util.*;
 
 public class DtoCodeGenerator {
-
-    // 需要生成的表名称,如果要生成全部表则为空字符串
-    private static final String TABLE_NAME = "temp_meta";//导出表名称
 
     /**
      * <p>
@@ -70,8 +67,8 @@ public class DtoCodeGenerator {
         // strategyConfig.setTablePrefix(new String[]{"unionpay_"})//
         // 此处可以修改为您的表前缀
         strategyConfig.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        if(StringUtils.isNotEmpty(TABLE_NAME)){
-            strategyConfig.setInclude(new String[] {TABLE_NAME}); // 需要生成的表
+        if(ArrayUtils.isNotEmpty(CodeGenerator.TABLES)){
+            strategyConfig.setInclude(CodeGenerator.TABLES); // 需要生成的表
         }
         // .setExclude(new String[]{"test"}) // 排除生成的表
         // 自定义实体，公共字段
